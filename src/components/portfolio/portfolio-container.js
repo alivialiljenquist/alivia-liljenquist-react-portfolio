@@ -10,25 +10,27 @@ export default class PortfolioContainer extends Component {
         this.state = {
             pageTitle: "Welcome to my Portfolio",
             data: [
-                {title: "Quip"}, 
-                {title: "EventBrite"}, 
-                {title: "Ministry Safe"},
-                {title: "SwingAway"}
+                {title: "Quip", category: "eCommerce", url: "google.com"}, 
+                {title: "EventBrite", category: "Scheduling", url: "eventBright.com"}, 
+                {title: "Ministry Safe", category: "Enterprise", url: "safe.com"},
+                {title: "SwingAway", category: "eCommerce", url: "swingaway.com"}
             ]
         };
-        this.handlePageTitleUpdate = this.handlePageTitleUpdate.bind(this)
+        this.handleFilter = this.handleFilter.bind(this)
     }
 
     portfolioItems() {
         return this.state.data.map(item => {
-            return <PortfolioItem title={item.title}/>
+            return <PortfolioItem title={item.title} url={item.url}/>
         })
     }
 
-    handlePageTitleUpdate() {
+    handleFilter(filter) {
         this.setState({
-            pageTitle: "Something Else"
-        });
+            data: this.state.data.filter(item => {
+                return item.category === filter;
+            })
+        })
     }
 
     render () {
@@ -36,12 +38,11 @@ export default class PortfolioContainer extends Component {
             //JSX
             <div>
                 <h2>{this.state.pageTitle}</h2>
-                <h2>Portfolio Items go Here...</h2>
+                <button onClick={() => this.handleFilter('eCommerce')}>eCommerce</button>
+                <button onClick={() => this.handleFilter('Scheduling')}>Scheduling</button>
+                <button onClick={() => this.handleFilter('Enterprise')}>Enterprise</button>
                 {this.portfolioItems()}
 
-                <hr/>
-
-                <button onClick={this.handlePageTitleUpdate}>Change Title</button>
             </div>
         )
     }
