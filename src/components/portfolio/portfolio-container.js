@@ -9,6 +9,7 @@ export default class PortfolioContainer extends Component {
         
         this.state = {
             pageTitle: "Welcome to my Portfolio",
+            isLoading: false,
             data: [
                 {title: "Quip", category: "eCommerce", url: "google.com"}, 
                 {title: "EventBrite", category: "Scheduling", url: "eventBright.com"}, 
@@ -34,6 +35,10 @@ export default class PortfolioContainer extends Component {
     }
 
     render () {
+        if (this.state.isLoading) {
+            return <div>Loading . . . </div>
+        }
+        
         return (
             //JSX
             <div>
@@ -44,6 +49,6 @@ export default class PortfolioContainer extends Component {
                 {this.portfolioItems()}
 
             </div>
-        )
+        ) 
     }
 }
