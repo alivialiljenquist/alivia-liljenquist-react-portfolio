@@ -23,6 +23,26 @@ body {
 
 .app {
     margin-top: 2rem;
-    display: grid;
-    justify-items: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
+
+
+.links{
+    padding: 20px;
+}
+
+.nav-link {
+    padding: 20px;
+}
+
+.title, .date {
+    margin-bottom: 10px;
+}
+
+.hr_2 {
+    margin-bottom: 10px;
+}
+
+
