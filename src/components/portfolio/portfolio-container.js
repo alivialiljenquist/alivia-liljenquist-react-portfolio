@@ -1,54 +1,79 @@
 import React, { Component } from "react";
+import axios from "axios";
 
-import PortfolioItem from "./portfolio-item"
-
+import PortfolioItem from "./portfolio-item";
 
 export default class PortfolioContainer extends Component {
-    constructor () {
-        super()
-        
-        this.state = {
-            pageTitle: "Welcome to my Portfolio",
-            isLoading: false,
-            data: [
-                {title: "Quip", category: "eCommerce", url: "google.com", slug: 'quip'}, 
-                {title: "EventBrite", category: "Scheduling", url: "eventBright.com", slug: 'eventbrite'}, 
-                {title: "Ministry Safe", category: "Enterprise", url: "safe.com", slug: 'ministry-safe'},
-                {title: "SwingAway", category: "eCommerce", url: "swingaway.com", slug: 'swingaway'}
-            ]
-        };
-        this.handleFilter = this.handleFilter.bind(this)
-    }
+  constructor() {
+    super();
 
-    portfolioItems() {
-        return this.state.data.map(item => {
-            return <PortfolioItem title={item.title} url={item.url} slug={item.slug}/>
-        })
-    }
+    this.state = {
+      pageTitle: "Welcome to my portfolio",
+      isLoading: false,
+      data: []
+    };
 
-    handleFilter(filter) {
+    this.handleFilter = this.handleFilter.bind(this);
+  }
+
+  handleFilter(filter) {
+    this.setState({
+      data: this.state.data.filter(item => {
+        return item.category === filter;
+      })
+    });
+  }
+
+  getPortfolioItems() {
+    axios
+      .get("https://alivialiljenquist.devcamp.space/portfolio/portfolio_items")
+      .then(response => {
         this.setState({
-            data: this.state.data.filter(item => {
-                return item.category === filter;
-            })
-        })
+          data: response.data.portfolio_items
+        });
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
+  portfolioItems() {
+    
+    return this.state.data.map(item => {
+      return (
+        <PortfolioItem
+          key={item.id}
+          item={item}
+        />
+      );
+    });
+  }
+
+  componentDidMount() {
+    this.getPortfolioItems();
+  }
+
+  render() {
+    if (this.state.isLoading) {
+      return <div>Loading...</div>;
     }
 
-    render () {
-        if (this.state.isLoading) {
-            return <div>Loading . . . </div>
-        }
-        
-        return (
-            //JSX
-            <div>
-                <h2>{this.state.pageTitle}</h2>
-                <button onClick={() => this.handleFilter('eCommerce')}>eCommerce</button>
-                <button onClick={() => this.handleFilter('Scheduling')}>Scheduling</button>
-                <button onClick={() => this.handleFilter('Enterprise')}>Enterprise</button>
-                {this.portfolioItems()}
+    return (
+      <div>
+        <h2>{this.state.pageTitle}</h2>
 
-            </div>
-        ) 
-    }
+        <button onClick={() => this.handleFilter("eCommerce")}>
+          eCommerce
+        </button>
+        <button onClick={() => this.handleFilter("Scheduling")}>
+          Scheduling
+        </button>
+        <button onClick={() => this.handleFilter("Enterprise")}>
+          Enterprise
+        </button>
+
+        {this.portfolioItems()}
+      </div>
+    );
+  }
 }
