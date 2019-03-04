@@ -1,20 +1,9 @@
-$main-font: 'Scada', sans-serif;
-
 body {
     margin: 0px;
-    font-family: $main-font;
-}
-
-
-.container {
+    font-family: "Titillium Web", sans-serif;
+  }
+  
+  .container {
     display: grid;
     grid-template-columns: 1fr;
-}
-
-
-
-img {
-    height: 100px;
-}
-
-
+  }
